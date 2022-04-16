@@ -1,3 +1,7 @@
 [submodule "lib/sio"]
 	path = lib/sio
 	url = https://github.com/socketio/socket.io-client-cpp.git
+
+[submodule "lib/http"]
+	path = lib/http
+	url = https://github.com/elnormous/HTTPRequest.git

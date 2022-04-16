@@ -19,6 +19,7 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 endif()
 
 aux_source_directory(${CMAKE_CURRENT_LIST_DIR}/src ALL_SRC)
+aux_source_directory(${CMAKE_CURRENT_LIST_DIR}/src/Auth ALL_SRC)
 
 file(GLOB ALL_HEADERS ${CMAKE_CURRENT_LIST_DIR}/src/*.h)
 
@@ -34,8 +35,11 @@ target_link_libraries(epine-sdk sioclient)
 target_include_directories(epine-sdk
     PUBLIC
         ${CMAKE_CURRENT_LIST_DIR}/src
+        ${CMAKE_CURRENT_LIST_DIR}/src/Auth
     PRIVATE
+        ${CMAKE_CURRENT_LIST_DIR}/lib/sio/lib/rapidjson/include
         ${CMAKE_CURRENT_LIST_DIR}/lib/sio/include
+        ${CMAKE_CURRENT_LIST_DIR}/lib/http/include
 )
 target_link_directories(epine-sdk
     PRIVATE

@@ -4,31 +4,10 @@
 #include <string>
 #include <functional>
 
-#include "../lib/sio/include/sio_client.h"
+#include "Auth/Auth.h"
+#include "Auth/Wallet.h"
 
 namespace Epine {
-  class Auth {
-    class Wallet {
-      public:
-        enum Event {
-          CONNECT,
-          DISCONNECT
-        };
-
-        typedef std::function<void(void)> EventListener;
-
-        Wallet();
-        void connect();
-        void on(Event event, EventListener callback);
-        void once(Event event, EventListener callback);
-        void off(Event event);
-    };
-
-    public:
-      Wallet wallet;
-      Auth();
-  };
-
   class Client {
     public:
       typedef std::function<void(void)> ReadynessListener;
@@ -42,4 +21,4 @@ namespace Epine {
   };
 }
 
-#endif // __EPINE_H__
+#endif // EPINE_H
