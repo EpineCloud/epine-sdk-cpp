@@ -7,9 +7,10 @@
 #include "Wallet.h"
 
 namespace Epine {
-  Auth::Auth() {
+  Auth::Auth(Config * config_) {
+    _config = config_;
     // Create instance of Wallet
-    wallet = new Wallet();
+    wallet = new Wallet(config_);
   }
 
   void Auth::init(sio::socket::ptr sio_socket) {

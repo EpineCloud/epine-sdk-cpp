@@ -5,25 +5,44 @@
 #include <iostream>
 
 namespace Epine {
-  Client::Client() {}
+  Client::Client(Environment environment) {
+    std::string baseUrl;
+    switch (environment)
+    {
+      case Environment::PRODUCTION:
+        baseUrl = "https://api.epine.cloud";
+        break;
+      default:
+        baseUrl = "http://localhost:3000";
+        break;
+    }
+
+    _config = new Config(baseUrl);
+    
+    auth = new Auth(_config);
+  }
+
   void Client::init(ReadynessListener callback) {
-    std::string url = "http://localhost:3000";
-    std::cout << "Connecting to " << url << std::endl;
+    LOG("Connecting to " + _config->baseUrl);
 
     _sio_client.set_open_listener([&](){
-      std::cout << "Connection opened" << std::endl;
+      LOG("Connection opened");
 
-      callback();
-
-      // Emit session
-      std::string sessionData = "{\"sessionId\":\"1337\"}";
-      _sio_socket->emit("session", sessionData);
+      _sio_socket->on(
+        Constants::Socket::TOPIC_SESSION,
+        sio::socket::event_listener_aux([&](std::string const &name, sio::message::ptr const &data, bool isAck, sio::message::list &ack_resp){
+          std::string sessionId = data->get_string();
+          _config->setSessionId(sessionId);
+          callback();
+        })
+      );
+      _sio_socket->emit(Constants::Socket::TOPIC_SUBSCRIBE);
     });
 
-    _sio_client.connect(url);
-    _sio_socket = _sio_client.socket();
+    _sio_client.connect(_config->baseUrl);
+    _sio_socket = _sio_client.socket("/v1");
 
     // Trigger hierarchy init
-    auth.init(_sio_socket);
+    auth->init(_sio_socket);
   }
 }

@@ -16,7 +16,7 @@ namespace Epine {
 
       typedef std::function<void(void)> EventListener;
 
-      Wallet();
+      Wallet(Config * config_);
       void init(sio::socket::ptr sio_socket);
       std::string connect();
       void on(Event event, EventListener callback);
@@ -24,6 +24,7 @@ namespace Epine {
       void off(Event event);
 
     private:
+      Config * _config;
       EventListener _on_connected_listener;
   };
 }

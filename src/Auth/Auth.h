@@ -6,6 +6,9 @@
 
 #include "../../lib/sio/include/sio_client.h"
 
+#include "../Constants/Constants.h"
+#include "../Config/Config.h"
+
 namespace Epine {
   class Auth {
 
@@ -13,8 +16,10 @@ namespace Epine {
       class Wallet;
 
       Wallet * wallet;
-      Auth();
+      Auth(Config * config_);
       void init(sio::socket::ptr sio_socket);
+    private:
+      Config * _config;
   };
 }
 #endif // EPINE_AUTH_H

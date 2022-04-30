@@ -9,12 +9,13 @@
 
 class EpineHTTPAPIv1 {
   public:
-    static std::string getAuthWalletConnect() {
+    static std::string getAuthWalletConnect(Epine::Config * config_) {
       try {
-        http::Request request{"http://localhost:3000/auth/wallet/connect"};
+        std::string url = config_->baseUrl + "/v1/auth/request";
+        http::Request request{url};
 
         const http::Response response = request.send("GET", "", {
-          {"X-Session-Id", "1337"}
+          {"x-session-id", config_->sessionId}
         });
 
         const auto responseBody = std::string{response.body.begin(), response.body.end()};
@@ -22,8 +23,9 @@ class EpineHTTPAPIv1 {
         rapidjson::Document d;
         d.Parse(&responseBody[0]);
 
-        std::cout << "Received URI: " << d["uri"].GetString() << '\n'; // print the result
-        return d["uri"].GetString();
+        std::string uri = d["uri"].GetString();
+        LOG("Received URI: " + uri); // print the result
+        return uri;
       } catch (const std::exception& e) {
         std::cerr << "Request failed, error: " << e.what() << '\n';
       }
@@ -31,13 +33,15 @@ class EpineHTTPAPIv1 {
 };
 
 namespace Epine {
-  Auth::Wallet::Wallet() {
+  Auth::Wallet::Wallet(Config * config_) {
+    _config = config_;
+
     _on_connected_listener = []{};
   }
 
   void Auth::Wallet::init(sio::socket::ptr sio_socket) {
     sio_socket->on(
-      "auth.wallet.connected",
+      Constants::Socket::TOPIC_AUTH_CONNECTED,
       sio::socket::event_listener_aux([&](std::string const &name, sio::message::ptr const &data, bool isAck, sio::message::list &ack_resp){
         _on_connected_listener();
       })
@@ -45,7 +49,7 @@ namespace Epine {
   }
 
   std::string Auth::Wallet::connect() {
-    return EpineHTTPAPIv1::getAuthWalletConnect();
+    return EpineHTTPAPIv1::getAuthWalletConnect(_config);
   }
 
   void Auth::Wallet::on(Event event, EventListener callback) {
