@@ -23,10 +23,10 @@ namespace Epine {
   }
 
   void Client::init(ReadynessListener callback) {
-    LOG("Connecting to " + _config->baseUrl);
+    LOG("Epine Log: Connecting to " + _config->baseUrl);
 
     _sio_client.set_open_listener([&](){
-      LOG("Connection opened");
+      LOG("Epine Log: Connection opened");
 
       _sio_socket->on(
         Constants::Socket::TOPIC_SESSION,
@@ -37,6 +37,14 @@ namespace Epine {
         })
       );
       _sio_socket->emit(Constants::Socket::TOPIC_SUBSCRIBE);
+    });
+
+    _sio_client.set_close_listener([&](sio::client::close_reason const &reason){
+      LOG("Epine Log: Connection closed");
+    });
+
+    _sio_client.set_fail_listener([&](){
+      LOG("Epine Error: connection failed");
     });
 
     _sio_client.connect(_config->baseUrl);
