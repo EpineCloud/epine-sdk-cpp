@@ -19,6 +19,25 @@
   make
 ```
 
+# Usage example
+```
+  // Create Epine client instance
+  Epine::Client epineClient();
+
+  // Initialize connection to cloud
+  epineClient.init([&](){
+    LOG("Client is ready");
+  });
+
+  // Subscribe on Wallet Connection Event
+  epineClient.auth->wallet->on(Epine::Auth::Wallet::Event::CONNECTED, [&](){
+    LOG("CONNECTED CALLBACK");
+  });
+
+  // Initialize Wallet Connection
+  std::string uri = epineClient.auth->wallet->connect();
+```
+
 # Notes
 
 ## Unreal Engine build
