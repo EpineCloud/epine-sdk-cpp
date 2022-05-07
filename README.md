@@ -1,3 +1,7 @@
+# Intro
+
+Architecture is taken from https://github.com/socketio/socket.io-client-cpp/
+
 # Install
 
 1) Clone repo with submodules
