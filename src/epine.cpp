@@ -10,7 +10,8 @@ namespace Epine {
     switch (environment)
     {
       case Environment::PRODUCTION:
-        baseUrl = "https://api.epine.cloud";
+        // baseUrl = "https://api.epine.cloud";
+        baseUrl = "http://34.90.39.173:80";
         break;
       default:
         baseUrl = "http://localhost:3000";
@@ -31,12 +32,13 @@ namespace Epine {
       _sio_socket->on(
         Constants::Socket::TOPIC_SESSION,
         sio::socket::event_listener_aux([&](std::string const &name, sio::message::ptr const &data, bool isAck, sio::message::list &ack_resp){
-          std::string sessionId = data->get_string();
+          std::string sessionId = data->get_map()["sessionId"]->get_string();
           _config->setSessionId(sessionId);
           callback();
         })
       );
-      _sio_socket->emit(Constants::Socket::TOPIC_SUBSCRIBE);
+      std::string sessionData = "{}";
+      _sio_socket->emit(Constants::Socket::TOPIC_SUBSCRIBE, sessionData);
     });
 
     _sio_client.set_close_listener([&](sio::client::close_reason const &reason){
