@@ -10,7 +10,7 @@ namespace Epine {
     switch (environment)
     {
       case Environment::PRODUCTION:
-        // baseUrl = "https://api.epine.cloud";
+        // baseUrl = "https://api-dev.epine.cloud";
         baseUrl = "http://34.91.134.2";
         break;
       default:
