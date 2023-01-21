@@ -11,7 +11,7 @@ namespace Epine {
     {
       case Environment::PRODUCTION:
         // baseUrl = "https://api.epine.cloud";
-        baseUrl = "http://34.90.39.173:80";
+        baseUrl = "http://34.91.134.2";
         break;
       default:
         baseUrl = "http://localhost:3000";
