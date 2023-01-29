@@ -21,9 +21,11 @@ namespace Epine {
     _config = new Config(baseUrl);
     
     auth = new Auth(_config);
+
+    _on_init_callback = []{};
   }
 
-  void Client::init(ReadynessListener callback) {
+  void Client::init() {
     LOG("Epine Log: Connecting to " + _config->baseUrl);
 
     _sio_client.set_open_listener([&](){
@@ -34,7 +36,7 @@ namespace Epine {
         sio::socket::event_listener_aux([&](std::string const &name, sio::message::ptr const &data, bool isAck, sio::message::list &ack_resp){
           std::string sessionId = data->get_map()["sessionId"]->get_string();
           _config->setSessionId(sessionId);
-          callback();
+          this->_on_init_callback();
         })
       );
       std::string sessionData = "{}";
@@ -54,5 +56,9 @@ namespace Epine {
 
     // Trigger hierarchy init
     auth->init(_sio_socket);
+  }
+
+  void Client::set_on_init_callback(CallbackVoid on_init_callback) {
+    _on_init_callback = on_init_callback;
   }
 }

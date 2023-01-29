@@ -4,7 +4,7 @@
 #include <string>
 #include <functional>
 
-#include "../../lib/sio/include/sio_client.h"
+#include "../../lib/sio/src/sio_client.h"
 
 #include "../Constants/Constants.h"
 #include "../Config/Config.h"
