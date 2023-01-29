@@ -17,15 +17,18 @@ namespace Epine {
         LOCAL
       };
 
-      typedef std::function<void(void)> ReadynessListener;
+      typedef std::function<void(void)> CallbackVoid;
 
       Auth * auth;
       Client(Environment environment = Environment::PRODUCTION);
-      void init(ReadynessListener callback);
+      void init();
+      void set_on_init_callback(CallbackVoid on_init_callback);
     private:
       Config * _config;
       sio::client _sio_client;
       sio::socket::ptr _sio_socket;
+
+      CallbackVoid _on_init_callback;
   };
 }
 
