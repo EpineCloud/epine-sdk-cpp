@@ -39,7 +39,7 @@ Architecture is taken from https://github.com/socketio/socket.io-client-cpp/
   });
 
   // Initialize Wallet Connection
-  std::string uri = epineClient.auth->wallet->connect();
+  std::string uri = epineClient.auth->wallet->connect(Epine::Constants::Chains::Type::EVM);
 ```
 
 # Notes
