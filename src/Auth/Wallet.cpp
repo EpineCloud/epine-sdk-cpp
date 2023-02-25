@@ -9,9 +9,10 @@
 
 class EpineHTTPAPIv1 {
   public:
-    static std::string getAuthWalletConnect(Epine::Config * config_) {
+    static std::string getAuthWalletConnect(Epine::Config * config_, Epine::Constants::Chains::Type type_) {
       try {
-        std::string url = config_->baseUrl + "/v1/auth/request";
+        std::string chainType = Epine::Constants::Chains::TypeUtils::toString(type_);
+        std::string url = config_->baseUrl + "/v1/auth/request?chainType=" + chainType;
         http::Request request{url};
 
         const http::Response response = request.send("GET", "", {
@@ -48,8 +49,8 @@ namespace Epine {
     );
   }
 
-  std::string Auth::Wallet::connect() {
-    return EpineHTTPAPIv1::getAuthWalletConnect(_config);
+  std::string Auth::Wallet::connect(Constants::Chains::Type type_) {
+    return EpineHTTPAPIv1::getAuthWalletConnect(_config, type_);
   }
 
   void Auth::Wallet::on(Event event, EventListener callback) {
