@@ -37,14 +37,27 @@ namespace Epine {
   Auth::Wallet::Wallet(Config * config_) {
     _config = config_;
 
-    _on_connected_listener = []{};
+    _on_connected_listener = [](std::string[]){};
   }
 
   void Auth::Wallet::init(sio::socket::ptr sio_socket) {
     sio_socket->on(
       Constants::Socket::TOPIC_AUTH_CONNECTED,
       sio::socket::event_listener_aux([&](std::string const &name, sio::message::ptr const &data, bool isAck, sio::message::list &ack_resp){
-        _on_connected_listener();
+        std::vector<sio::message::ptr> addressesVector = data->get_map()["addresses"]->get_vector();
+
+        const auto* dataPtr = addressesVector.data();
+        const auto numElements = addressesVector.size();
+
+        std::string addressesArray[numElements];
+        std::transform(
+          addressesVector.begin(),
+          addressesVector.end(),
+          addressesArray,
+          [](const sio::message::ptr elem) { return elem->get_string(); }
+        );
+
+        _on_connected_listener(addressesArray);
       })
     );
   }
@@ -53,9 +66,13 @@ namespace Epine {
     return EpineHTTPAPIv1::getAuthWalletConnect(_config, type_);
   }
 
-  void Auth::Wallet::on(Event event, EventListener callback) {
-    if (event == Event::CONNECTED) {
-      _on_connected_listener = callback;
+  void Auth::Wallet::on(Event event, EventListenerStringArray callback) {
+    switch (event) {
+      case Event::CONNECTED:
+        _on_connected_listener = callback;
+        break;
+      default:
+        throw std::runtime_error("Event type and listener mismatch");
     }
   }
 }
