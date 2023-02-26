@@ -16,7 +16,7 @@ namespace Epine {
       // ID
       enum class ID {
         // No ChainId
-        NO = 0,
+        None = 0,
         // EVM
         EVM_ETHEREUM = 1,
         EVM_POLYGON = 137,
