@@ -34,8 +34,9 @@ Architecture is taken from https://github.com/socketio/socket.io-client-cpp/
   });
 
   // Subscribe on Wallet Connection Event
-  epineClient.auth->wallet->on(Epine::Auth::Wallet::Event::CONNECTED, [&](){
+  epineClient.auth->wallet->on(Epine::Auth::Wallet::Event::CONNECTED, [&](std::string addresses[]){
     LOG("CONNECTED CALLBACK");
+    LOG("Connected address #0: " + addresses[0]);
   });
 
   // Initialize Wallet Connection
