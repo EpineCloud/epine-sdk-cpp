@@ -4,9 +4,6 @@
 #include <functional>
 #include <iostream>
 
-#include "HTTPRequest.hpp"
-#include "rapidjson/document.h"
-
 class EpineHTTPAPIv1 {
   public:
     static std::string getAuthRequest(Epine::Config * config_, Epine::Constants::Chains::Type type_) {
