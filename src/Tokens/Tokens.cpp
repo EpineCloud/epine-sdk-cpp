@@ -4,13 +4,16 @@
 #include <functional>
 #include <iostream>
 
+#include "HTTPRequest.hpp"
+
 class EpineHTTPAPIv1 {
   public:
     static std::string getTokensAddressBalance(Epine::Config * config_, std::string address_, Epine::Constants::Chains::Type type_, Epine::Constants::Chains::ID id_) {
       try {
         std::string chainType = Epine::Constants::Chains::TypeUtils::toString(type_);
-        std::string chainId = std::to_string(id_);
-        std::string url = config_->baseUrl + "/v1/tokens/address/" + address_m + "/balance?chainType=" + chainType + "&chainId=" + chainId;
+        int intChainId = static_cast<int>(id_);
+        std::string chainId = std::to_string(intChainId);
+        std::string url = config_->baseUrl + "/v1/tokens/address/" + address_ + "/balance?chainType=" + chainType + "&chainId=" + chainId;
         http::Request request{url};
 
         const http::Response response = request.send("GET", "", {

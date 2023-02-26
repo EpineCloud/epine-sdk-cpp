@@ -27,6 +27,7 @@ aux_source_directory(${CMAKE_CURRENT_LIST_DIR}/src ALL_SRC)
 aux_source_directory(${CMAKE_CURRENT_LIST_DIR}/src/Constants ALL_SRC)
 aux_source_directory(${CMAKE_CURRENT_LIST_DIR}/src/Config ALL_SRC)
 aux_source_directory(${CMAKE_CURRENT_LIST_DIR}/src/Auth ALL_SRC)
+aux_source_directory(${CMAKE_CURRENT_LIST_DIR}/src/Tokens ALL_SRC)
 
 # Add headers to ALL_HEADERS
 file(GLOB ALL_HEADERS ${CMAKE_CURRENT_LIST_DIR}/src/*.h)
