@@ -4,6 +4,9 @@
 #include <functional>
 #include <iostream>
 
+#include "HTTPRequest.hpp"
+#include "rapidjson/document.h"
+
 class EpineHTTPAPIv1 {
   public:
     static std::string getTokensAddressBalance(Epine::Config * config_, std::string address_, Epine::Constants::Chains::Type type_, Epine::Constants::Chains::ID id_) {
@@ -33,7 +36,7 @@ namespace Epine {
     _config = config_;
   }
 
-  std::vector<Tokens::Token> parseTokensJSON(const std::string& tokensJSON) {
+  std::vector<Tokens::Token> Tokens::parseTokensJSON(const std::string& tokensJSON) {
     std::vector<Tokens::Token> tokens;
     rapidjson::Document document;
     document.Parse(tokensJSON.c_str());
@@ -65,6 +68,6 @@ namespace Epine {
 
   std::vector<Tokens::Token> Tokens::getAddressBalance(std::string address_, Constants::Chains::Type type_, Constants::Chains::ID id_) {
     std::string tokensJSON = EpineHTTPAPIv1::getTokensAddressBalance(_config, address_, type_, id_);
-    return parseTokensJSON(tokensJSON);
+    return Tokens::parseTokensJSON(tokensJSON);
   }
 }

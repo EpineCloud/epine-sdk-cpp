@@ -24,24 +24,9 @@ Architecture is taken from https://github.com/socketio/socket.io-client-cpp/
 ```
 
 # Usage example
-```
-  // Create Epine client instance
-  Epine::Client epineClient();
+See example repository
 
-  // Initialize connection to cloud
-  epineClient.init([&](){
-    LOG("Client is ready");
-  });
-
-  // Subscribe on Wallet Connection Event
-  epineClient.auth->wallet->on(Epine::Auth::Wallet::Event::CONNECTED, [&](std::string addresses[]){
-    LOG("CONNECTED CALLBACK");
-    LOG("Connected address #0: " + addresses[0]);
-  });
-
-  // Initialize Wallet Connection
-  std::string uri = epineClient.auth->wallet->connect(Epine::Constants::Chains::Type::EVM);
-```
+https://github.com/EpineCloud/example-epine-sdk-cpp
 
 # Notes
 

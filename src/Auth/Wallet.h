@@ -4,9 +4,6 @@
 #include <string>
 #include <functional>
 
-#include "HTTPRequest.hpp"
-#include "rapidjson/document.h"
-
 #include "Auth.h"
 
 namespace Epine {

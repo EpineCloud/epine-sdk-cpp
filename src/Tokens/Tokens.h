@@ -4,9 +4,6 @@
 #include <string>
 #include <functional>
 
-#include "HTTPRequest.hpp"
-#include "rapidjson/document.h"
-
 #include "../Constants/Constants.h"
 #include "../Config/Config.h"
 
@@ -24,8 +21,9 @@ namespace Epine {
 
       Tokens(Config * config_);
 
-      std::vector<Token> parseTokensJSON(const std::string& tokensJSON);
       std::vector<Token> getAddressBalance(std::string address, Constants::Chains::Type type, Constants::Chains::ID id);
+
+      static std::vector<Token> parseTokensJSON(const std::string& tokensJSON);
     private:
       Config * _config;
   };
