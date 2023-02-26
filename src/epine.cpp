@@ -21,6 +21,7 @@ namespace Epine {
     _config = new Config(baseUrl);
     
     auth = new Auth(_config);
+    tokens = new Tokens(_config);
 
     _on_init_callback = []{};
   }

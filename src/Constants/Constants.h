@@ -13,6 +13,32 @@ namespace Epine {
     }
 
     namespace Chains {
+      // ID
+      enum class ID {
+        // No ChainId
+        NO = 0,
+        // EVM
+        EVM_ETHEREUM = 1,
+        EVM_POLYGON = 137,
+        EVM_TESTNET_ZK_SYNC = 280
+      };
+      class IDUtils {
+        public:
+          static std::string toName(ID id) {
+            switch (id) {
+              case ID::EVM_ETHEREUM:
+                return "Ethereum";
+              case ID::EVM_POLYGON:
+                return "Polygon";
+              case ID::EVM_TESTNET_ZK_SYNC:
+                return "Testnet: zkSync";
+              default:
+                throw std::invalid_argument("Unknown chain id");
+            }
+          }
+      };
+
+      // Type
       enum class Type {
         EVM,
         TVM

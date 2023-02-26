@@ -5,6 +5,7 @@
 #include <functional>
 
 #include "Auth/Auth.h"
+#include "Tokens/Tokens.h"
 #include "Auth/Wallet.h"
 #include "Constants/Constants.h"
 #include "Config/Config.h"
@@ -20,6 +21,7 @@ namespace Epine {
       typedef std::function<void(void)> CallbackVoid;
 
       Auth * auth;
+      Tokens * tokens;
       Client(Environment environment = Environment::PRODUCTION);
       void init();
       void set_on_init_callback(CallbackVoid on_init_callback);
