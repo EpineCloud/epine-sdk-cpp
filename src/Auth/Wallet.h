@@ -15,7 +15,7 @@ namespace Epine {
       };
 
       typedef std::function<void(void)> EventListener;
-      typedef std::function<void(std::string[])> EventListenerStringArray;
+      typedef std::function<void(std::vector<std::string>)> EventListenerStringArray;
 
       Wallet(Config * config_);
       void init(sio::socket::ptr sio_socket);

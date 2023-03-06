@@ -37,7 +37,7 @@ namespace Epine {
   Auth::Wallet::Wallet(Config * config_) {
     _config = config_;
 
-    _on_connected_listener = [](std::string[]){};
+    _on_connected_listener = [](std::vector<std::string>){};
   }
 
   void Auth::Wallet::init(sio::socket::ptr sio_socket) {
@@ -46,14 +46,11 @@ namespace Epine {
       sio::socket::event_listener_aux([&](std::string const &name, sio::message::ptr const &data, bool isAck, sio::message::list &ack_resp){
         std::vector<sio::message::ptr> addressesVector = data->get_map()["addresses"]->get_vector();
 
-        const auto* dataPtr = addressesVector.data();
-        const auto numElements = addressesVector.size();
-
-        std::string addressesArray[numElements];
+        std::vector<std::string> addressesArray;
         std::transform(
           addressesVector.begin(),
           addressesVector.end(),
-          addressesArray,
+          std::back_inserter(addressesArray),
           [](const sio::message::ptr elem) { return elem->get_string(); }
         );
 
